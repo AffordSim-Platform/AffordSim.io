@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #ffffff;
+            --text: #333333;
+            --light-bg: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text);
+            font-size: 22px;
+            line-height: 1.85;
+            background: var(--bg);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .container {
+            max-width: 1600px;
+        }
+
+        header h1 {
+            font-size: 2.6em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            line-height: 1.3;
+            max-width: 100%;
+        }
+
+        .authors {
+            font-size: 1.25em;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .authors sup {
+            color: var(--accent);
+        }
+
+        .affiliation {
+            font-size: 0.95em;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-paper {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-code {
+            background: #333;
+            color: white;
+        }
+
+        .btn-data {
+            background: var(--accent);
+            color: white;
+        }
+
+        .links a:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        /* Sections */
+        section {
+            padding: 48px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        section h2 {
+            font-size: 2.2em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        section p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+
+        /* Images */
+        .figure {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .figure img {
+            max-width: 110%;
+            width: 110%;
+            margin-left: -5%;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.13);
+        }
+
+        .figure-caption {
+            margin-top: 14px;
+            font-size: 0.95em;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* Two-column figures */
+        .figure-row {
+            display: flex;
+            gap: 24px;
+            margin: 30px 0;
+        }
+
+        .figure-row .figure {
+            flex: 1;
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 1em;
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--light-bg);
+        }
+
+        tbody tr:hover {
+            background: #eef5fd;
+        }
+
+        td:first-child, td:nth-child(2) {
+            text-align: center;
+        }
+
+        .best {
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+        /* Task list */
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 1em;
+        }
+
+        .task-table thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        .task-table th,
+        .task-table td {
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+        }
+
+        .task-table th {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .task-table td:first-child {
+            font-weight: 600;
+            color: var(--primary);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .task-table td:nth-child(2) {
+            text-align: center;
+        }
+
+        .task-table td:nth-child(3) {
+            text-align: left;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .task-table tbody tr:nth-child(even) {
+            background: var(--light-bg);
+        }
+
+        .task-table tbody tr:hover {
+            background: #eef5fd;
+        }
+
+        .task-tag {
+            display: inline-block;
+            background: #e8f4f8;
+            color: var(--accent);
+            font-size: 0.8em;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f7ff, #e8f4f8);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 20px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .highlight-box ul {
+            margin: 10px 0 0 20px;
+        }
+
+        .highlight-box li {
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            text-align: center;
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            header h1 { font-size: 1.5em; }
+            .figure-row { flex-direction: column; }
+            .task-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="container">
+        <h1>AffordSim: A Scalable Data Generator and Benchmark<br>for Affordance-Aware Robotic Manipulation</h1>
+        <p class="authors">
+            Mingyang Li<sup>*</sup>,
+            Haofan Xu<sup>*</sup>,
+            Haowen Sun,
+            Xinzhe Chen,
+            Sihua Ren,
+            Liqi Huang,
+            Chenyang Miao,
+            Xinyang Sui,
+            Qiongjie Cui<sup>&dagger;</sup>,
+            Zeyang Liu<sup>&dagger;</sup>,
+            Xingyu Chen<sup>&dagger;</sup>,
+            Xuguang Lan<sup>&dagger;</sup>
+        </p>
+        <p class="affiliation">School of Artificial Intelligence, Xi'an Jiaotong University</p>
+        <p style="font-size: 0.85em; color: #999; margin-bottom: 16px;">
+            <sup>*</sup> Equal contribution &nbsp;&nbsp; <sup>&dagger;</sup> Corresponding authors
+        </p>
+        <div class="links">
+            <a href="#" class="btn-paper">Paper (arXiv)</a>
+            <a href="https://github.com/yangml071/AffordSim" class="btn-code">Code (GitHub)</a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Abstract -->
+    <section id="abstract">
+        <h2>Abstract</h2>
+        <p>
+            Simulation-based data generation has become a dominant paradigm for training robotic manipulation policies, yet existing platforms do not incorporate object affordance information into trajectory generation. As a result, tasks requiring precise interaction with specific functional regions &mdash; grasping a mug by its handle, pouring from a cup's rim, or hanging a mug on a hook &mdash; cannot be automatically generated with semantically correct trajectories. We introduce <strong>AffordSim</strong>, the first simulation framework that integrates open-vocabulary 3D affordance prediction into the manipulation data generation pipeline. AffordSim uses our <strong>VoxAfford</strong> model, an open-vocabulary 3D affordance detector that enhances MLLM output tokens with multi-scale geometric features, to predict affordance maps on object point clouds, guiding grasp pose estimation toward task-relevant functional regions. Built on NVIDIA Isaac Sim with cross-embodiment support (Franka FR3, Panda, UR5e, Kinova), VLM-powered task generation, and novel domain randomization using DA3-based 3D Gaussian reconstruction from real photographs, AffordSim enables automated, scalable generation of affordance-aware manipulation data. We establish a benchmark of <strong>50 tasks</strong> across <strong>7 categories</strong> (grasping, placing, stacking, pushing/pulling, pouring, mug hanging, long-horizon composite) and evaluate 4 imitation learning baselines (BC, Diffusion Policy, ACT, Pi 0.5). Our results reveal that while grasping is largely solved (53&ndash;93% success), affordance-demanding tasks such as pouring into narrow containers (1&ndash;43%) and mug hanging (0&ndash;47%) remain significantly more challenging for current imitation learning methods, highlighting the need for affordance-aware data generation. Zero-shot sim-to-real experiments on a real Franka FR3 validate the transferability of the generated data.
+        </p>
+    </section>
+
+    <!-- Overview -->
+    <section id="overview">
+        <h2>System Overview</h2>
+        <div class="figure">
+            <img src="image/overview.png" alt="AffordSim System Overview">
+            <p class="figure-caption">Figure 1: Overview of AffordSim. Natural language task descriptions are processed by a VLM to generate simulation scenes in Isaac Sim. VoxAfford predicts 3D affordance maps on object point clouds, guiding grasp pose estimation and motion planning to produce semantically correct manipulation trajectories. Comprehensive domain randomization, including DA3-reconstructed real backgrounds, enables zero-shot sim-to-real transfer.</p>
+        </div>
+        <p>
+            The AffordSim pipeline consists of five stages: (1) A VLM converts the natural language task description into a scene configuration, specifying objects, their poses, the robot embodiment, and goal conditions. (2) For each target object, a point cloud is captured from the simulation scene. (3) VoxAfford predicts an affordance map, where each point's value indicates the suitability of that surface point for the specified interaction. (4) Affordance-guided grasp pose estimation selects a grasp from the affordance-weighted candidate set. (5) A motion planner generates and executes a collision-free trajectory, and domain randomization is applied to the rendered observations.
+        </p>
+    </section>
+
+    <!-- Why Affordance -->
+    <section id="affordance">
+        <h2>Why Affordance-Aware Manipulation?</h2>
+        <p>
+            Object affordances &mdash; the functional regions through which objects are meant to be manipulated &mdash; are critical for tasks requiring precise, semantically correct interactions. Pouring from a cup requires grasping its handle and tilting from the rim; hanging a mug demands locating the hook-compatible opening. Current simulation platforms handle grasp pose estimation through one of two approaches, both of which fail for affordance-demanding tasks:
+        </p>
+        <div class="highlight-box">
+            <ul>
+                <li><strong>Manual grasp design</strong> requires human engineers to hand-specify grasp poses for each object and task, which is labor-intensive and does not scale.</li>
+                <li><strong>Generic grasp estimation</strong> methods such as AnyGrasp predict stable grasps without considering task semantics, often selecting poses that are physically stable but functionally incorrect (e.g., grasping a mug by its body when the task requires pouring).</li>
+            </ul>
+        </div>
+        <p>
+            In our experiments, affordance-demanding tasks such as mug hanging achieve at most 10% policy success when trajectories are generated with generic grasp methods, compared to meaningful improvements with affordance guidance. VoxAfford (61% average) substantially outperforms AnyGrasp (20%), demonstrating the value of learned affordance guidance.
+        </p>
+
+        <div class="figure">
+            <img src="image/grasp.png" alt="Affordance-guided Grasp Planning">
+            <p class="figure-caption">Figure 2: Affordance-guided grasp planning vs. generic grasp estimation. VoxAfford predicts 3D affordance heatmaps on object point clouds, enabling grasp pose selection that targets task-relevant functional regions (e.g., grasping a mug by its handle for pouring, or by its rim opening for hanging).</p>
+        </div>
+    </section>
+
+    <!-- 50-Task Benchmark -->
+    <section id="benchmark">
+        <h2>50-Task Benchmark</h2>
+        <p>
+            AffordSim includes a benchmark of 50 tasks organized into 7 manipulation categories of increasing affordance complexity. Each task is evaluated with 30 simulation rollouts, and the primary metric is task success rate (SR). For multi-step tasks, sub-task success rates are additionally reported to localize failure modes.
+        </p>
+
+        <table class="task-table">
+            <thead>
+                <tr><th>Category</th><th> Tasks</th><th>Description &amp; Key Affordance</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Grasping</td><td><span class="task-tag">10</span></td><td>Pick up objects with varied geometries. Requires <em>graspable-surface</em> affordance.</td></tr>
+                <tr><td>Placing</td><td><span class="task-tag">10</span></td><td>Pick and place objects onto surfaces or into containers. Requires <em>release-point</em> affordance.</td></tr>
+                <tr><td>Stacking</td><td><span class="task-tag">5</span></td><td>Stack objects in specified orders. Requires <em>stable-surface</em> affordance and sequencing.</td></tr>
+                <tr><td>Pushing / Pulling</td><td><span class="task-tag">6</span></td><td>Push objects to targets or pull open drawers and doors. Requires <em>contact-surface</em> affordance.</td></tr>
+                <tr><td>Pouring</td><td><span class="task-tag">8</span></td><td>Pour contents between containers of varying geometry. Requires <em>rim</em> affordance and tilt control.</td></tr>
+                <tr><td>Mug Hanging</td><td><span class="task-tag">3</span></td><td>Hang mugs on racks or hooks. Requires <em>handle-opening</em> affordance and precise alignment.</td></tr>
+                <tr><td>Long-Horizon Composite</td><td><span class="task-tag">8</span></td><td>Multi-step tasks chaining primitives across categories (e.g., pick-pour-place). Requires <em>sequential</em> affordance reasoning.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="figure">
+            <img src="image/composite.gif" alt="AffordSim Task Gallery">
+            <p class="figure-caption">Figure 3: Task gallery. Representative tasks from the AffordSim benchmark across seven manipulation categories: grasping, placing, stacking, pushing/pulling, pouring, mug hanging, and long-horizon composite tasks.</p>
+        </div>
+    </section>
+
+    <!-- Domain Randomization & Cross-Embodiment -->
+    <section id="randomization">
+        <h2>Domain Randomization & Cross-Embodiment</h2>
+        <p>
+            To close the visual gap between simulation and the real world, AffordSim applies domain randomization along five axes: (1) <strong>Background texture</strong> &mdash; random textures on workspace and surrounding surfaces; (2) <strong>Lighting</strong> &mdash; randomized number, position, intensity, and color of light sources; (3) <strong>Object texture</strong> &mdash; PBR material property perturbation (albedo, roughness, metallicity); (4) <strong>Object pose</strong> &mdash; small random perturbations to initial positions and orientations; (5) <strong>DA3 Gaussian background</strong> &mdash; photorealistic backgrounds from 3D Gaussian Splatting reconstruction of real deployment scenes using 10&ndash;20 photographs.
+        </p>
+
+        <div class="figure">
+            <img src="image/domain_randomization.png" alt="Domain Randomization in AffordSim">
+            <p class="figure-caption">Figure 4: Domain randomization in AffordSim. Each column shows the cumulative effect of adding one randomization axis: object pose, lighting, background texture, and image noise. The rightmost column shows example background textures used for randomization.</p>
+        </div>
+
+        <p>
+            AffordSim supports <strong>4 robot embodiments</strong> &mdash; Franka FR3, Franka Panda, UR5e, and Kinova &mdash; with automatic kinematic adaptation. The VoxAfford affordance module is embodiment-agnostic; no task-specific tuning is required when switching between robots.
+        </p>
+
+        <div class="figure">
+            <img src="image/cross_embodiment.png" alt="Cross-Embodiment Support">
+            <p class="figure-caption">Figure 5: Cross-embodiment support. Three representative tasks executed by four robot embodiments. AffordSim generates affordance-guided trajectories for each embodiment without task-specific tuning.</p>
+        </div>
+    </section>
+
+    <!-- Cross-Embodiment Trajectory Generation -->
+    <section id="cross-embodiment">
+        <h2>Cross-Embodiment Trajectory Generation</h2>
+        <p>
+            We evaluate trajectory generation success across four robot embodiments on 10 representative tasks. AffordSim successfully generates affordance-guided trajectories for all embodiments. The variation in success rates reflects kinematic differences rather than affordance prediction failures, as VoxAfford is embodiment-agnostic. Notably, the UR5e exhibits lower success on orientation-sensitive tasks such as pouring, because its 6-DOF kinematics (versus 7-DOF for the other arms) limits wrist dexterity.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Robot Embodiment</th>
+                    <th>Trajectory Generation Success Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="2">Franka FR3</td><td><strong>94%</strong></td></tr>
+                <tr><td colspan="2">Franka Panda</td><td>92%</td></tr>
+                <tr><td colspan="2">UR5e</td><td>83%</td></tr>
+                <tr><td colspan="2">Kinova</td><td><strong>95%</strong></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Benchmark Results -->
+    <section id="results">
+        <h2>Simulation Benchmark Results</h2>
+        <p>
+            Each task is trained on 300 demonstrations with object pose randomization applied during data collection; all evaluation rollouts also include object pose randomization to test generalization. We evaluate four imitation learning baselines: BC (behavioral cloning with an MLP policy), Diffusion Policy (DP), ACT (Action Chunking Transformers), and Pi 0.5. All policies use dual-view RGB images and robot proprioceptive state as input.
+        </p>
+
+        <table>
+            <thead>
+                <tr><th>Category</th><th>Task</th><th>BC</th><th>ACT</th><th>DP</th><th>Pi 0.5</th></tr>
+            </thead>
+            <tbody>
+                <tr><td rowspan="2">Grasping</td><td>pick_banana</td><td>53</td><td>63</td><td>87</td><td class="best">93</td></tr>
+                <tr><td>pick_red_cup</td><td>17</td><td>77</td><td>63</td><td class="best">80</td></tr>
+                <tr><td rowspan="3">Placing</td><td>pick_banana_place_plate</td><td>37</td><td>60</td><td>84</td><td class="best">93</td></tr>
+                <tr><td>pick_cup_place_shelf</td><td>5</td><td>7</td><td>3</td><td class="best">47</td></tr>
+                <tr><td>pick_kettle_place_coffee_machine</td><td>27</td><td>43</td><td>49</td><td class="best">65</td></tr>
+                <tr><td rowspan="2">Stacking</td><td>stack_two_blocks</td><td>30</td><td>43</td><td>47</td><td class="best">77</td></tr>
+                <tr><td>stack_three_blocks</td><td>13</td><td>27</td><td>28</td><td class="best">53</td></tr>
+                <tr><td rowspan="2">Push/Pull</td><td>push_box_to_target</td><td>23</td><td>63</td><td>67</td><td class="best">78</td></tr>
+                <tr><td>pull_drawer_open</td><td>37</td><td>53</td><td>58</td><td class="best">86</td></tr>
+                <tr><td rowspan="3">Pouring</td><td>pour_basket_into_bowl</td><td>20</td><td>86</td><td>94</td><td class="best">99</td></tr>
+                <tr><td>pour_pan_into_bowl</td><td>7</td><td>33</td><td>87</td><td class="best">92</td></tr>
+                <tr><td>pour_cup_into_bowl</td><td>1</td><td>24</td><td>36</td><td class="best">43</td></tr>
+                <tr><td rowspan="2">Mug Hanging</td><td>hang_mug_on_rack</td><td>0</td><td>10</td><td>17</td><td class="best">47</td></tr>
+                <tr><td>hang_mug_on_hook</td><td>0</td><td>7</td><td>13</td><td class="best">33</td></tr>
+                <tr><td rowspan="3">Long Horizon</td><td>pick_cup_pour_place_coffee_machine</td><td>0</td><td>3</td><td>8</td><td class="best">16</td></tr>
+                <tr><td>pick_cup_pour_hang_on_rack</td><td>0</td><td>1</td><td>3</td><td class="best">21</td></tr>
+                <tr><td>open_microwave_place_can</td><td>0</td><td>0</td><td>2</td><td class="best">13</td></tr>
+                <tr style="background: #eef5fd; font-weight: 700;">
+                    <td colspan="2">Average (all 17 tasks)</td><td>16</td><td>35</td><td>44</td><td class="best">61</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 36px; margin-bottom: 16px; color: var(--primary);">Affordance Integration Ablation</h3>
+        <p>
+            We compare four grasp strategies on affordance-demanding tasks: Manual (human-specified), AnyGrasp (generic grasp estimation), VoxAfford (our predicted affordance guidance), and Human Aff. (human-annotated affordance ground truth, serving as an oracle upper bound).
+        </p>
+
+        <table>
+            <thead>
+                <tr><th>Task</th><th>Manual</th><th>AnyGrasp</th><th>VoxAfford</th><th>Human Aff.</th></tr>
+            </thead>
+            <tbody>
+                <tr><td style="text-align:center">pick_banana_place_plate</td><td>100</td><td>47</td><td>98</td><td class="best">100</td></tr>
+                <tr><td style="text-align:center">pour_into_pan</td><td>67</td><td>20</td><td>80</td><td class="best">93</td></tr>
+                <tr><td style="text-align:center">pour_into_cup</td><td>83</td><td>0</td><td>63</td><td class="best">80</td></tr>
+                <tr><td style="text-align:center">hang_mug_on_rack</td><td>87</td><td>0</td><td>10</td><td class="best">90</td></tr>
+                <tr><td style="text-align:center">hang_mug_on_hook</td><td>83</td><td>0</td><td>17</td><td class="best">87</td></tr>
+                <tr><td style="text-align:center">pick_screwdriver</td><td>100</td><td>53</td><td>97</td><td class="best">100</td></tr>
+                <tr style="background: #eef5fd; font-weight: 700;">
+                    <td style="text-align:center">Average</td><td>87</td><td>20</td><td>61</td><td class="best">92</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 36px; margin-bottom: 16px; color: var(--primary);">Zero-Shot Sim-to-Real Transfer</h3>
+        <p>
+            We deploy Pi 0.5 trained exclusively on AffordSim data to a real Franka FR3, evaluating on one representative task from each category. The sim-to-real transfer success rate mirrors the affordance-complexity gradient observed in simulation: grasping achieves 60%, placing 30%, push/pull 40%, and stacking 20%, while pouring (20%) and mug hanging (10%) remain challenging. These results confirm that (1) AffordSim-generated data supports effective sim-to-real transfer, and (2) the affordance-complexity bottleneck is not an artifact of simulation but reflects genuine difficulty in learning fine-grained functional interactions.
+        </p>
+
+        <table>
+            <thead>
+                <tr><th>Category</th><th>Task</th><th>SR (%)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Grasping</td><td style="text-align:center">pick_banana</td><td>60</td></tr>
+                <tr><td>Placing</td><td style="text-align:center">pick_cup_place_shelf</td><td>30</td></tr>
+                <tr><td>Stacking</td><td style="text-align:center">stack_two_blocks</td><td>20</td></tr>
+                <tr><td>Push/Pull</td><td style="text-align:center">push_box_to_target</td><td>40</td></tr>
+                <tr><td>Pouring</td><td style="text-align:center">pour_into_pan</td><td>20</td></tr>
+                <tr><td>Mug Hanging</td><td style="text-align:center">hang_mug_on_rack</td><td>10</td></tr>
+                <tr style="background: #eef5fd; font-weight: 700;">
+                    <td colspan="2">Average</td><td>30</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2025 AffordSim Team, Xi'an Jiaotong University. All rights reserved.</p>
+    </div>
+</footer>
+
+</body>
+</html>
