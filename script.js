@@ -75,3 +75,36 @@ if (backgroundVideo && sceneCaption && sceneDescription) {
     input.addEventListener('change', () => { if (input.checked) updateBackgroundVideo(); });
   }
 }
+
+// Highlight the matching cells of the 10-by-5 animated task gallery.
+const taskGallery = document.querySelector('.benchmark-figure');
+const skillButtons = [...document.querySelectorAll('.skill-list button[data-tasks]')];
+const skillStatus = document.querySelector('#skill-status');
+if (taskGallery && skillButtons.length) {
+  const overlay = document.createElement('div');
+  overlay.className = 'task-highlight-grid';
+  overlay.setAttribute('aria-hidden', 'true');
+  const cells = Array.from({ length: 50 }, (_, index) => {
+    const cell = document.createElement('span');
+    cell.className = 'task-highlight-cell';
+    cell.dataset.task = String(index + 1);
+    overlay.appendChild(cell);
+    return cell;
+  });
+  taskGallery.appendChild(overlay);
+  for (const button of skillButtons) {
+    button.addEventListener('click', () => {
+      const activate = button.getAttribute('aria-pressed') !== 'true';
+      skillButtons.forEach(item => item.setAttribute('aria-pressed', String(activate && item === button)));
+      overlay.classList.toggle('is-filtering', activate);
+      const matching = new Set(button.dataset.tasks.split(',').map(item => Number(item.trim())));
+      for (const [index, cell] of cells.entries()) {
+        cell.classList.toggle('is-match', activate && matching.has(index + 1));
+        cell.style.setProperty('--skill-color', button.dataset.color);
+      }
+      if (skillStatus) skillStatus.textContent = activate
+        ? `${button.textContent.trim()}: ${matching.size} matching task examples highlighted. Select again to clear.`
+        : 'All task examples shown.';
+    });
+  }
+}

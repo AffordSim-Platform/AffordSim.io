@@ -45,7 +45,6 @@
         <video class="motivation-video hang-fail" autoplay muted loop playsinline preload="metadata" aria-label="AnyGrasp cup hanging failure" src="assets/motivation_sample2_fail.mp4"></video>
         <video class="motivation-video hang-success" autoplay muted loop playsinline preload="metadata" aria-label="AffordSim cup hanging success" src="assets/motivation_sample2_success.mp4"></video>
       </figure>
-      <div class="stat-strip" aria-label="AffordSim benchmark at a glance"><div><strong>50</strong><span>manipulation tasks</span></div><div><strong>5</strong><span>robot embodiments</span></div><div><strong>500+</strong><span>rigid &amp; articulated objects</span></div><div><strong>7</strong><span>manipulation skills</span></div></div>
     </div>
   </section>
 
@@ -56,9 +55,9 @@
   </div></section>
 
   <section class="section benchmark-section" id="benchmark"><div class="container">
-    <div class="section-heading"><div><p class="section-label">03 / THE BENCHMARK</p><h2>One benchmark. <em>Many ways to interact.</em></h2></div><p>Fifty tasks span seven manipulation skills, from picking and placing to longer compositions that require a sequence of functional interactions. The gallery shows examples from the paper; some differ from the current local task configurations.</p></div>
+    <div class="section-heading"><div><p class="section-label">03 / THE BENCHMARK</p><h2>One benchmark. <em>Many ways to interact.</em></h2></div><div class="difficulty-summary"><p>50 tasks are grouped by affordance reasoning and task horizon:</p><ul class="difficulty-list"><li><strong class="tier-easy">Easy · 10 tasks</strong><span>Short-horizon tasks where any stable grasp is sufficient.</span></li><li><strong class="tier-medium">Medium · 30 tasks</strong><span>Short-horizon tasks requiring contact with a specific functional region.</span></li><li><strong class="tier-hard">Hard · 10 tasks</strong><span>Functional-region constraints with long sequences or especially tight precision and stability requirements.</span></li></ul></div></div>
     <figure class="wide-figure benchmark-figure"><img src="assets/benchmark_50.gif" alt="Animated gallery of 50 example simulated rollouts from the paper." loading="lazy"></figure>
-    <div class="skill-list" aria-label="Benchmark skills"><span>Pick &amp; place</span><span>Open &amp; close</span><span>Pull &amp; push</span><span>Hang</span><span>Pour</span><span>Stack</span><span>Long-horizon tasks</span></div>
+    <div class="skill-list" role="group" aria-label="Highlight task categories"><button type="button" aria-pressed="false" data-tasks="4,5,7,8,9,10,11,12,13,14,16,17,18,19,20,21,39,40,41,43" data-color="#176087" style="--skill-color:#176087">Pick &amp; place</button><button type="button" aria-pressed="false" data-tasks="3,6" data-color="#126b60" style="--skill-color:#126b60">Open &amp; close</button><button type="button" aria-pressed="false" data-tasks="26,27,28,29,45" data-color="#a14906" style="--skill-color:#a14906">Pull &amp; push</button><button type="button" aria-pressed="false" data-tasks="1,2" data-color="#a12c50" style="--skill-color:#a12c50">Hang</button><button type="button" aria-pressed="false" data-tasks="22,23,24,25,31,35,44" data-color="#69479e" style="--skill-color:#69479e">Pour</button><button type="button" aria-pressed="false" data-tasks="30,32,46,48" data-color="#3d7026" style="--skill-color:#3d7026">Stack</button><button type="button" aria-pressed="false" data-tasks="15,33,34,36,37,38,42,47,49,50" data-color="#835226" style="--skill-color:#835226">Long-horizon tasks</button></div><p class="sr-only" id="skill-status" aria-live="polite">All task examples shown.</p>
   </div></section>
 
   <section class="section embodiments-section" id="embodiments"><div class="container">

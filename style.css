@@ -81,3 +81,30 @@ h2{font-size:clamp(43px,4.2vw,62px)}
   .view-picker span{justify-content:center;padding:8px 4px;font-size:14px;gap:4px}
   .view-picker small{font-size:12px}
 }
+
+/* Align section descriptions with the heading, below the section label. */
+@media(min-width:851px){
+  .section-heading > :nth-child(2){padding-top:calc(15px * 1.7 + 17px)}
+}
+
+/* Skill buttons highlight their corresponding cells in the task animation. */
+.benchmark-figure{position:relative}
+.task-highlight-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(5,1fr);overflow:hidden;border-radius:12px;pointer-events:none}
+.task-highlight-cell{transition:background-color .18s,box-shadow .18s}
+.task-highlight-grid.is-filtering .task-highlight-cell:not(.is-match){background:rgba(13,25,30,.66)}
+.task-highlight-grid.is-filtering .task-highlight-cell.is-match{box-shadow:inset 0 0 0 4px var(--skill-color);background:color-mix(in srgb,var(--skill-color) 16%,transparent)}
+.skill-list button{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #d2e0da;padding:10px 17px;border-radius:100px;font:650 17px/1.4 var(--sans);color:var(--ink);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+.skill-list button::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--skill-color);flex:none}
+.skill-list button[aria-pressed=true]{background:var(--skill-color);border-color:var(--skill-color);color:#fff}
+.skill-list button[aria-pressed=true]::before{background:#fff}
+.skill-list button:hover{border-color:var(--skill-color)}
+@media(max-width:850px){.task-highlight-grid.is-filtering .task-highlight-cell.is-match{box-shadow:inset 0 0 0 2px var(--skill-color)}.skill-list button{font-size:16px;padding:9px 13px}}
+@media(prefers-reduced-motion:reduce){.task-highlight-cell,.skill-list button{transition:none}}
+
+/* Benchmark difficulty tiers use the definitions in the paper. */
+.difficulty-summary>p{margin:0 0 17px!important}
+.difficulty-list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.difficulty-list li{display:grid;grid-template-columns:155px 1fr;gap:14px;align-items:start;font-size:19px;line-height:1.5;color:var(--muted)}
+.difficulty-list strong{display:inline-block;border-radius:7px;padding:4px 8px;font-size:16px;line-height:1.45;white-space:nowrap}
+.tier-easy{background:#dcefe2;color:#23603b}.tier-medium{background:#fff0cc;color:#805208}.tier-hard{background:#f7dede;color:#8d3434}
+@media(max-width:480px){.difficulty-list li{grid-template-columns:1fr;gap:5px;font-size:18px}.difficulty-list strong{justify-self:start}}
