@@ -7,7 +7,9 @@
   <meta name="theme-color" content="#f8f9f6">
   <title>AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="pointcloud-viewer.css">
   <script src="script.js" defer></script>
+  <script src="pointcloud-viewer.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -68,20 +70,29 @@
   <section class="section randomization-section" id="randomization"><div class="container">
     <div class="section-heading"><div><p class="section-label">05 / DOMAIN RANDOMIZATION</p><h2>Domain <em>randomization.</em></h2></div><p>To support transfer, AffordSim varies object pose, texture, lighting, image noise, and cross-viewpoint backgrounds reconstructed from real scenes.</p></div>
     <figure class="wide-figure randomization-figure"><div class="randomization-art"><img src="image/domain_randomization.png" alt="Examples of varied appearances, lighting, object poses, and backgrounds used in domain randomization." loading="lazy"><img class="sparkle-patch patch-1" src="assets/domain-starless-source.png" alt="" aria-hidden="true"><img class="sparkle-patch patch-2" src="assets/domain-starless-source.png" alt="" aria-hidden="true"><img class="sparkle-patch patch-3" src="assets/domain-starless-source.png" alt="" aria-hidden="true"><img class="sparkle-patch patch-4" src="assets/domain-starless-source.png" alt="" aria-hidden="true"><img class="sparkle-patch patch-5" src="assets/domain-starless-source.png" alt="" aria-hidden="true"><img class="sparkle-patch patch-6" src="assets/domain-starless-source.png" alt="" aria-hidden="true"></div></figure>
-    <div class="background-explorer"><div class="explorer-heading"><div><p class="section-label">CROSS-VIEWPOINT BACKGROUNDS</p><h3>Explore reconstructed scenes.</h3></div><p>Choose a scene and camera viewpoint to explore different manipulation tasks and robot embodiments.</p></div>
-      <fieldset class="scene-picker"><legend>Choose a background scene</legend>
-        <label class="scene-option"><input type="radio" name="scene" value="coffee" checked><span class="scene-card"><img src="assets/bg_coffee.webp" alt=""><span><strong>Coffee shop</strong><small>Franka</small></span></span></label>
-        <label class="scene-option"><input type="radio" name="scene" value="library"><span class="scene-card"><img src="assets/bg_library.webp" alt=""><span><strong>Library</strong><small>UR5e</small></span></span></label>
-        <label class="scene-option"><input type="radio" name="scene" value="workshop"><span class="scene-card"><img src="assets/bg_workshop.webp" alt=""><span><strong>Workshop</strong><small>Kinova</small></span></span></label>
-      </fieldset>
-      <div class="scene-view-header"><p id="scene-description">Franka FR3 · Pick banana and place on plate</p>
-        <fieldset class="view-picker"><legend>Camera viewpoint</legend>
-          <label><input type="radio" name="view" value="02" checked><span>View 1 <small>−90°</small></span></label>
-          <label><input type="radio" name="view" value="04"><span>View 2 <small>−60°</small></span></label>
-          <label><input type="radio" name="view" value="06"><span>View 3 <small>−30°</small></span></label>
-        </fieldset>
+    <div class="background-explorer"><div class="explorer-heading"><div><p class="section-label">CROSS-VIEWPOINT BACKGROUNDS</p><h3>Explore reconstructed scenes.</h3></div><p>Explore each reconstructed scene and change the camera viewpoint of its simulation.</p></div>
+      <div class="reconstruction-grid" aria-label="Reconstructed scene point clouds">
+        <article class="reconstruction-card"><h4>Coffee shop</h4><div class="pointcloud-viewer" data-scene="coffee" data-pointcloud="assets/pointclouds/coffee.bin" aria-label="Coffee shop reconstructed point cloud"></div></article>
+        <article class="reconstruction-card"><h4>Library</h4><div class="pointcloud-viewer" data-scene="library" data-pointcloud="assets/pointclouds/library.bin" aria-label="Library reconstructed point cloud"></div></article>
+        <article class="reconstruction-card"><h4>Workshop</h4><div class="pointcloud-viewer" data-scene="workshop" data-pointcloud="assets/pointclouds/workshop.bin" aria-label="Workshop reconstructed point cloud"></div></article>
       </div>
-      <figure class="scene-video"><video id="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-coffee-02.mp4" aria-label="Franka picking a banana in the coffee shop, view 1">Your browser does not support embedded video.</video><span class="sr-only" id="scene-caption" aria-live="polite">Coffee shop, Franka FR3, view 1, orbit angle −90 degrees.</span></figure>
+      <div class="scene-video-grid" aria-label="Simulations in reconstructed scenes">
+        <article class="scene-demo" data-scene="coffee"><h4>Coffee shop</h4><p class="scene-task">Pick banana and place on plate</p><fieldset class="view-picker"><legend>Camera viewpoint</legend>
+            <label><input type="radio" name="view-coffee" value="02" checked><span>View 1 <small>−90°</small></span></label>
+            <label><input type="radio" name="view-coffee" value="04"><span>View 2 <small>−60°</small></span></label>
+            <label><input type="radio" name="view-coffee" value="06"><span>View 3 <small>−30°</small></span></label>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-coffee-02.mp4" aria-label="Coffee shop, Pick banana and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Coffee shop, view 1, orbit angle −90 degrees.</span></figure></article>
+        <article class="scene-demo" data-scene="library"><h4>Library</h4><p class="scene-task">Pick chocolate box and place on sugar box</p><fieldset class="view-picker"><legend>Camera viewpoint</legend>
+            <label><input type="radio" name="view-library" value="02" checked><span>View 1 <small>−90°</small></span></label>
+            <label><input type="radio" name="view-library" value="04"><span>View 2 <small>−60°</small></span></label>
+            <label><input type="radio" name="view-library" value="06"><span>View 3 <small>−30°</small></span></label>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-library-02.mp4" aria-label="Library, Pick chocolate box and place on sugar box, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Library, view 1, orbit angle −90 degrees.</span></figure></article>
+        <article class="scene-demo" data-scene="workshop"><h4>Workshop</h4><p class="scene-task">Pick bowl and place on plate</p><fieldset class="view-picker"><legend>Camera viewpoint</legend>
+            <label><input type="radio" name="view-workshop" value="02" checked><span>View 1 <small>−90°</small></span></label>
+            <label><input type="radio" name="view-workshop" value="04"><span>View 2 <small>−60°</small></span></label>
+            <label><input type="radio" name="view-workshop" value="06"><span>View 3 <small>−30°</small></span></label>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-workshop-02.mp4" aria-label="Workshop, Pick bowl and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Workshop, view 1, orbit angle −90 degrees.</span></figure></article>
+      </div>
     </div>
   </div></section>
 

@@ -1,0 +1,76 @@
+{
+  "format": "Interleaved little-endian float32 x, y, z then uint8 r, g, b; 15 bytes per point; no header.",
+  "axes": "Y up. Points transformed from GLB aligned coordinates into the scene USER frame using inverse(M_user2da3) * inverse(hf_alignment), then mapped from USER XYZ to viewer XZY with viewer Z=-USER Y.",
+  "sampling": "Uniform deterministic sample without replacement, random seed 20261027; excludes nonfinite points.",
+  "scenes": {
+    "coffee": {
+      "source_glb": "Depth-Anything-3/out_咖啡店_canonical/scene.glb",
+      "source_glb_sha256": "d03477e9aafb001d0358d63c899d539d15f651610562259ca130f75de3812bcd",
+      "source_points": 2400451,
+      "display_points": 180000,
+      "file": "coffee.bin",
+      "bytes": 2700000,
+      "finite_points": 2400451,
+      "bounds": [
+        [
+          -0.7720785737037659,
+          -0.6121218800544739,
+          -2.081512212753296
+        ],
+        [
+          1.1807007789611816,
+          0.7622356414794922,
+          2.542673349380493
+        ]
+      ],
+      "matching_background_view_02_sha256": "7b96f295364c3ccc464be371d44ab3fc71c1a1b435050d9e245a7dbf7d622a3a",
+      "background_match": "DA3 orbit_002_angle-090.png is byte-identical to the released background view_02.png."
+    },
+    "library": {
+      "source_glb": "Depth-Anything-3/out_图书馆_1_canonical/scene.glb",
+      "source_glb_sha256": "f3bf990e8d4241fe00d440467e5829017aac25f58a5c0186b6e98526df8e2aa2",
+      "source_points": 2400451,
+      "display_points": 180000,
+      "file": "library.bin",
+      "bytes": 2700000,
+      "finite_points": 2400451,
+      "bounds": [
+        [
+          -1.9141414165496826,
+          -0.6287797093391418,
+          -5.49428653717041
+        ],
+        [
+          2.555449962615967,
+          1.4357407093048096,
+          5.684240341186523
+        ]
+      ],
+      "matching_background_view_02_sha256": "15958b0e3fdac3b4c3884e3c833360f77d4a1855e0a92fa6701a0fa56f447e19",
+      "background_match": "DA3 orbit_002_angle-090.png is byte-identical to the released background view_02.png."
+    },
+    "workshop": {
+      "source_glb": "Depth-Anything-3/out_场景2_canonical/scene.glb",
+      "source_glb_sha256": "367da55d3bd6031f96a4e9faa8e00039dc6bb01b5b0abc906fed5b7ce0585278",
+      "source_points": 2400451,
+      "display_points": 180000,
+      "file": "workshop.bin",
+      "bytes": 2700000,
+      "finite_points": 2400451,
+      "bounds": [
+        [
+          -4.880658149719238,
+          -0.6226831078529358,
+          -3.0203638076782227
+        ],
+        [
+          2.7165114879608154,
+          2.014122724533081,
+          10.235966682434082
+        ]
+      ],
+      "matching_background_view_02_sha256": "8889bd5596d81b0f8242944fd032e8ff90b8174231a49c049ffabf0d83d74d3a",
+      "background_match": "DA3 orbit_002_angle-090.png is byte-identical to the released background view_02.png."
+    }
+  }
+}

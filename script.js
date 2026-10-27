@@ -16,63 +16,54 @@ if (copyButton && copyStatus) {
   });
 }
 
-const backgroundVideo = document.querySelector('#background-video');
-const sceneCaption = document.querySelector('#scene-caption');
-const sceneDescription = document.querySelector('#scene-description');
-const scenes = {
-  coffee: { name: 'Coffee shop', description: 'Franka FR3 · Pick banana and place on plate' },
-  library: { name: 'Library', description: 'UR5e · Pick chocolate box and place on sugar box' },
-  workshop: { name: 'Workshop', description: 'Kinova Gen3 · Pick bowl and place on plate' }
-};
+// Each scene has an independently controlled, twice-speed video.
 const viewpoints = {
   '02': { name: 'View 1', angle: '−90 degrees' },
   '04': { name: 'View 2', angle: '−60 degrees' },
   '06': { name: 'View 3', angle: '−30 degrees' }
 };
-let currentScene = 'coffee';
-let pendingLoad = false;
-let playbackIntent = true;
-let requestedTime = 0;
-let sceneRequest = 0;
-
-if (backgroundVideo && sceneCaption && sceneDescription) {
-  backgroundVideo.addEventListener('play', () => { if (!pendingLoad) playbackIntent = true; });
-  backgroundVideo.addEventListener('pause', () => { if (!pendingLoad) playbackIntent = false; });
-
-  const updateBackgroundVideo = () => {
-    const scene = document.querySelector('input[name="scene"]:checked')?.value;
-    const view = document.querySelector('input[name="view"]:checked')?.value;
-    if (!scenes[scene] || !viewpoints[view]) return;
-    const request = ++sceneRequest;
-    const sameScene = scene === currentScene;
-    if (!pendingLoad) {
-      playbackIntent = !backgroundVideo.paused && !backgroundVideo.ended;
-      requestedTime = Number.isFinite(backgroundVideo.currentTime) ? backgroundVideo.currentTime : 0;
-    }
-    if (!sameScene) requestedTime = 0;
-    currentScene = scene;
-    const { name, description } = scenes[scene];
-    const { name: viewName, angle } = viewpoints[view];
-    sceneDescription.textContent = description;
-    sceneCaption.textContent = `${name}, ${description}, ${viewName}, orbit angle ${angle}.`;
-    backgroundVideo.setAttribute('aria-label', `${description}, ${name}, ${viewName}, orbit angle ${angle}`);
-    pendingLoad = true;
-    backgroundVideo.autoplay = playbackIntent;
-    backgroundVideo.src = `assets/background-${scene}-${view}.mp4`;
-    backgroundVideo.onloadedmetadata = () => {
-      if (request !== sceneRequest) return;
-      if (Number.isFinite(backgroundVideo.duration)) {
-        backgroundVideo.currentTime = Math.min(requestedTime, Math.max(0, backgroundVideo.duration - 0.05));
+for (const demo of document.querySelectorAll('.scene-demo')) {
+  const scene = demo.dataset.scene;
+  const name = demo.querySelector('h4').textContent;
+  const task = demo.querySelector('.scene-task').textContent;
+  const video = demo.querySelector('.background-video');
+  const caption = demo.querySelector('.scene-caption');
+  let request = 0;
+  let pendingLoad = false;
+  let playbackIntent = true;
+  let requestedTime = 0;
+  video.defaultPlaybackRate = 2;
+  video.playbackRate = 2;
+  video.addEventListener('play', () => { if (!pendingLoad) playbackIntent = true; });
+  video.addEventListener('pause', () => { if (!pendingLoad) playbackIntent = false; });
+  for (const input of demo.querySelectorAll('input[type="radio"]')) {
+    input.addEventListener('change', () => {
+      if (!input.checked || !viewpoints[input.value]) return;
+      const currentRequest = ++request;
+      if (!pendingLoad) {
+        playbackIntent = !video.paused && !video.ended;
+        requestedTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
       }
-      pendingLoad = false;
-      if (playbackIntent) backgroundVideo.play().catch(() => {});
-      else backgroundVideo.pause();
-    };
-    backgroundVideo.onerror = () => { if (request === sceneRequest) pendingLoad = false; };
-    backgroundVideo.load();
-  };
-  for (const input of document.querySelectorAll('input[name="scene"], input[name="view"]')) {
-    input.addEventListener('change', () => { if (input.checked) updateBackgroundVideo(); });
+      const { name: viewName, angle } = viewpoints[input.value];
+      caption.textContent = `${name}, ${task}, ${viewName}, orbit angle ${angle}.`;
+      video.setAttribute('aria-label', `${name}, ${task}, ${viewName}, orbit angle ${angle}`);
+      pendingLoad = true;
+      video.autoplay = playbackIntent;
+      video.src = `assets/background-${scene}-${input.value}.mp4`;
+      video.onloadedmetadata = () => {
+        if (currentRequest !== request) return;
+        video.defaultPlaybackRate = 2;
+        video.playbackRate = 2;
+        if (Number.isFinite(video.duration)) {
+          video.currentTime = Math.min(requestedTime, Math.max(0, video.duration - 0.05));
+        }
+        pendingLoad = false;
+        if (playbackIntent) video.play().catch(() => {});
+        else video.pause();
+      };
+      video.onerror = () => { if (currentRequest === request) pendingLoad = false; };
+      video.load();
+    });
   }
 }
 

@@ -108,3 +108,22 @@ h2{font-size:clamp(43px,4.2vw,62px)}
 .difficulty-list strong{display:inline-block;border-radius:7px;padding:4px 8px;font-size:16px;line-height:1.45;white-space:nowrap}
 .tier-easy{background:#dcefe2;color:#23603b}.tier-medium{background:#fff0cc;color:#805208}.tier-hard{background:#f7dede;color:#8d3434}
 @media(max-width:480px){.difficulty-list li{grid-template-columns:1fr;gap:5px;font-size:18px}.difficulty-list strong{justify-self:start}}
+
+/* Three reconstructed scenes above three independent, compact videos. */
+.reconstruction-grid,.scene-video-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.reconstruction-grid{margin-bottom:28px}
+.reconstruction-card,.scene-demo{min-width:0}
+.reconstruction-card h4,.scene-demo h4{font-size:20px;line-height:1.3;margin:0 0 10px;color:var(--ink)}
+.pointcloud-viewer{width:100%;aspect-ratio:4/3;overflow:hidden;border:1px solid #d9e6df;border-radius:10px;background:#edf2ef}
+.scene-demo{padding-top:18px;border-top:1px solid var(--line)}
+.scene-demo .scene-task{font-size:16px;line-height:1.4;margin:0 0 14px;min-height:2.8em;color:var(--muted)}
+.scene-demo .view-picker{margin-bottom:12px;gap:5px}
+.scene-demo .view-picker label{flex:1;min-width:0}
+.scene-demo .view-picker span{justify-content:center;min-height:40px;padding:7px 3px;gap:4px;font-size:13px}
+.scene-demo .view-picker small{font-size:11px}
+.scene-demo .scene-video video{width:100%;aspect-ratio:4/3;max-height:none;object-fit:contain}
+@media(max-width:850px){.reconstruction-grid,.scene-video-grid{gap:12px}.reconstruction-card h4,.scene-demo h4{font-size:17px}.scene-demo .view-picker span{font-size:12px}.scene-demo .view-picker small{display:none}}
+@media(max-width:600px){.reconstruction-grid,.scene-video-grid{grid-template-columns:1fr;gap:20px}.scene-demo .scene-task{min-height:0}.scene-demo .view-picker span{font-size:14px}.scene-demo .view-picker small{display:inline;font-size:12px}}
+
+/* Align the tier badge with the first line of its description. */
+.difficulty-list strong{padding:0 8px;line-height:28.5px}
