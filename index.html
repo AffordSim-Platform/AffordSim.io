@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="AffordSim is a scalable data generator and benchmark for affordance-aware robotic manipulation.">
   <meta name="theme-color" content="#f8f9f6">
-  <title>AffordSim: Affordance-Aware Robotic Manipulation</title>
+  <title>AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -14,109 +14,86 @@
 <header class="site-header">
   <div class="nav-shell">
     <a class="brand" href="#top" aria-label="AffordSim home"><span class="brand-mark">a<span>.</span></span><span>AffordSim</span></a>
-    <nav aria-label="Main navigation">
-      <a href="#overview">Overview</a><a href="#benchmark">Benchmark</a><a href="#transfer">Sim-to-real</a><a class="nav-paper" href="paper/main.pdf">Read paper <span aria-hidden="true">↗</span></a>
-    </nav>
+    <nav aria-label="Main navigation"><a href="#overview">Overview</a><a href="#benchmark">Benchmark</a><a href="#transfer">Sim-to-real</a><a class="nav-paper" href="paper/main.pdf">Read paper <span aria-hidden="true">↗</span></a></nav>
   </div>
 </header>
 <main id="main">
   <section class="hero" id="top" aria-labelledby="title">
     <div class="hero-inner">
-      <div class="eyebrow"><span class="dot"></span> A DATA GENERATOR &amp; BENCHMARK</div>
-      <h1 id="title"><span>AffordSim</span><br>A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</h1>
+      <p class="eyebrow"><span class="dot"></span> NEURIPS 2026 · EVALUATIONS &amp; DATASETS</p>
+      <h1 id="title">AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation</h1>
       <p class="authors">Mingyang Li<sup>*</sup>, Haofan Xu<sup>*</sup>, Haowen Sun<sup>*</sup>, Xinzhe Chen,<br class="author-break"> Sihua Ren, Liqi Huang, Xinyang Sui, Chenyang Miao, Jiawei Ye,<br class="author-break"> Qiongjie Cui, Xingyu Chen, Zeyang Liu<sup>†</sup>, Xuguang Lan<sup>†</sup></p>
       <p class="affiliation">National Key Laboratory of Human-Machine Hybrid Augmented Intelligence<br>Institute of Artificial Intelligence and Robotics, Xi’an Jiaotong University</p>
       <p class="author-notes"><sup>*</sup> Equal contribution &nbsp; <sup>†</sup> Corresponding authors: <a href="mailto:zeyang.liu@xjtu.edu.cn">zeyang.liu@xjtu.edu.cn</a>, <a href="mailto:xglan@xjtu.edu.cn">xglan@xjtu.edu.cn</a></p>
-      <div class="hero-actions">
-        <a class="button button-dark" href="paper/main.pdf"><span aria-hidden="true">↗</span> Read the paper</a>
-        <a class="button button-light" href="https://github.com/yangml071/AffordSim"><span aria-hidden="true">⌘</span> View the code</a>
-      </div>
-      <div class="hero-figure"><img src="assets/overview.webp" alt="Overview of the AffordSim data generation framework, benchmark and real-world deployment." fetchpriority="high"></div>
-      <p class="hero-caption">From task descriptions to affordance-aware data, benchmark evaluation, and real-world transfer.</p>
+      <div class="hero-actions"><a class="button button-dark" href="paper/main.pdf"><span aria-hidden="true">↗</span> Read the paper</a><a class="button button-light" href="https://github.com/yangml071/AffordSim"><span aria-hidden="true">⌘</span> View the code</a></div>
+      <figure class="hero-figure"><img src="assets/overview.webp" alt="Overview of the AffordSim data generation framework, benchmark and real-world deployment." fetchpriority="high"><figcaption>From task descriptions to affordance-aware data, benchmark evaluation, and real-world transfer.</figcaption></figure>
     </div>
   </section>
 
-  <section class="abstract-section" id="abstract" aria-labelledby="abstract-title">
-    <div class="container abstract-layout">
-      <div><p class="section-label">THE PAPER</p><h2 id="abstract-title">Abstract</h2></div>
-      <div class="abstract-copy">
-        <p>Many everyday robot manipulation skills are affordance-dependent, with success determined by whether the robot contacts the functional object region required by the subsequent action. Current simulation data generators obtain contacts from generic grasp estimators or per-object manual contact annotations, but generic estimators rank stable grasps without task semantics and often select contacts that are misaligned with the downstream action, while manual contact annotations must be rewritten for each new object and task.</p>
-        <p>To address these challenges, we introduce <strong>AffordSim</strong>, a scalable data generator and benchmark that integrates open-vocabulary 3D affordance prediction into simulation-based trajectory generation. Given a natural-language task description, AffordSim synthesizes a task-relevant scene, emits affordance queries, grounds them on object surfaces, samples region-conditioned grasps, and selects executable candidates with motion planning. It further randomizes object pose, texture, lighting, image noise, and cross-viewpoint backgrounds for sim-to-real transfer.</p>
-        <p>We instantiate AffordSim as a 50-task benchmark across diverse manipulation skills, five robot embodiments, and 500+ rigid and articulated objects. AffordSim achieves 93% of the trajectory collection success rate of manual contact annotations on affordance-critical tasks and 89% on hard composite tasks. Vision-language-action policies trained on AffordSim data transfer zero-shot to a real Franka FR3, reaching 24% average success.</p>
-      </div>
-    </div>
-  </section>
+  <section class="section abstract-section" id="abstract"><div class="container abstract-content">
+    <p class="section-label">ABSTRACT</p><h2>Abstract</h2>
+    <p>Many everyday robot manipulation skills are affordance-dependent, with success determined by whether the robot contacts the functional object region required by the subsequent action. Current simulation data generators obtain contacts from generic grasp estimators or per-object manual contact annotations, but generic estimators rank stable grasps without task semantics and often select contacts that are misaligned with the downstream action, while manual contact annotations must be rewritten for each new object and task. To solve these challenges, we introduce <strong>AffordSim</strong>, a scalable data generator and benchmark that integrates open-vocabulary 3D affordance prediction into simulation-based trajectory generation. Given a natural-language task description, AffordSim synthesizes a task-relevant scene, emits affordance queries, grounds them on object surfaces, samples region-conditioned grasps, and selects executable candidates with motion planning. It further randomizes object pose, texture, lighting, image noise, and cross-viewpoint backgrounds for sim-to-real transfer. We instantiate AffordSim as a 50-task benchmark across diverse manipulation skills, five robot embodiments, and 500+ rigid and articulated objects. AffordSim achieves 93% of the trajectory collection success rate of manual contact annotations on affordance-critical tasks and 89% on hard composite tasks. Vision-language-action policies trained on AffordSim data transfer zero-shot to a real Franka FR3, reaching 24% average success. The data generator, benchmark, and code are available at our <a href="https://github.com/yangml071/AffordSim">project repository</a>.</p>
+  </div></section>
 
-  <section class="intro section" id="overview">
-    <div class="container split-heading">
-      <div><p class="section-label">01 / THE IDEA</p><h2>Where a robot<br><em>interacts</em> matters.</h2></div>
-      <div class="intro-copy"><p class="lead">The right grasp is more than a stable grasp. It must also support what the robot needs to do next.</p><p>AffordSim brings open-vocabulary 3D affordance prediction into simulation-based data generation. From a natural-language task, it builds a scene, identifies task-relevant object regions, and plans executable grasps and trajectories. The resulting data supports policy learning on a benchmark designed around affordance-dependent manipulation.</p></div>
-    </div>
-    <div class="container stat-strip" aria-label="AffordSim benchmark at a glance"><div><strong>50</strong><span>manipulation tasks</span></div><div><strong>5</strong><span>robot embodiments</span></div><div><strong>500+</strong><span>rigid &amp; articulated objects</span></div><div><strong>7</strong><span>manipulation skills</span></div></div>
-  </section>
-
-  <section class="section method-section" id="method">
+  <section class="section intro" id="overview">
     <div class="container">
-      <div class="section-heading"><div><p class="section-label">02 / THE FRAMEWORK</p><h2>From language to<br><em>interaction.</em></h2></div><p>AffordSim connects scene generation, 3D affordance grounding, grasp selection, and motion planning in one data-generation pipeline.</p></div>
-      <div class="steps">
-        <article><span class="step-num">01</span><h3>Understand the task</h3><p>A language description is used to construct a simulated scene and extract task-relevant affordance queries.</p></article>
-        <article><span class="step-num">02</span><h3>Ground the interaction</h3><p>Open-vocabulary 3D affordance prediction identifies object regions relevant to the intended action.</p></article>
-        <article><span class="step-num">03</span><h3>Generate trajectories</h3><p>Region-conditioned grasps and motion planning produce executable demonstrations for policy learning.</p></article>
-      </div>
-      <figure class="wide-figure"><img src="assets/pipeline.webp" alt="AffordSim pipeline from task and scene generation to affordance prediction and trajectory collection." loading="lazy"><figcaption>The data-generation pipeline combines functional contact reasoning with executable motion planning.</figcaption></figure>
+      <div class="section-heading"><div><p class="section-label">01 / THE IDEA</p><h2>Where a robot <em>interacts</em> matters.</h2></div><div><p class="lead">The right grasp is more than a stable grasp. It must also support what the robot needs to do next.</p><p>AffordSim brings open-vocabulary 3D affordance prediction into simulation-based data generation. From a natural-language task, it builds a scene, identifies task-relevant object regions, and plans executable grasps and trajectories. The resulting data supports policy learning on a benchmark designed around affordance-dependent manipulation.</p></div></div>
+      <div class="affordance-demo"><figure class="media-card"><img src="assets/affordance_kettle.gif" alt="Simulation demonstration of a kettle manipulation task." loading="lazy"><figcaption>A simulated example of handle grasping and kettle pose adjustment.</figcaption></figure><div class="demo-copy"><p class="section-label">FUNCTIONAL CONTACT</p><h3>Choose a grasp for the task.</h3><p>Manipulation often depends on where contact is made. For example, a handle may be useful for pouring, while a different part of a mug must be grasped to leave its handle available for hanging. AffordSim uses the intended action to guide contact selection.</p></div></div>
+      <figure class="wide-figure grasp-figure"><img src="image/grasp.png" alt="Task-conditioned affordance predictions and contacts for a pitcher, pan and mug, with generic AnyGrasp grasps shown below for comparison." loading="lazy"><figcaption>Task-conditioned functional regions and interaction poses, compared with generic grasps. The animation above is an example demonstration, not a baseline comparison.</figcaption></figure>
+      <div class="stat-strip" aria-label="AffordSim benchmark at a glance"><div><strong>50</strong><span>manipulation tasks</span></div><div><strong>5</strong><span>robot embodiments</span></div><div><strong>500+</strong><span>rigid &amp; articulated objects</span></div><div><strong>7</strong><span>manipulation skills</span></div></div>
     </div>
   </section>
 
-  <section class="section benchmark-section" id="benchmark">
-    <div class="container">
-      <div class="section-heading"><div><p class="section-label">03 / THE BENCHMARK</p><h2>One benchmark.<br><em>Many ways to interact.</em></h2></div><p>Fifty tasks span seven manipulation skills, from picking and placing to longer compositions that require a sequence of functional interactions.</p></div>
-      <figure class="gallery-figure"><img src="assets/task_gallery.webp" alt="Gallery illustrating the 50 tasks in the AffordSim benchmark." loading="lazy"><figcaption>A selection of benchmark tasks across manipulation skills and levels of affordance demand.</figcaption></figure>
-      <div class="skill-list" aria-label="Benchmark skills"><span>Pick &amp; place</span><span>Open &amp; close</span><span>Pull &amp; push</span><span>Hang</span><span>Pour</span><span>Stack</span><span>Long-horizon tasks</span></div>
-    </div>
-  </section>
+  <section class="section method-section" id="method"><div class="container">
+    <div class="section-heading"><div><p class="section-label">02 / THE FRAMEWORK</p><h2>From language to <em>interaction.</em></h2></div><p>AffordSim connects scene generation, 3D affordance grounding, grasp selection, and motion planning in one data-generation pipeline.</p></div>
+    <div class="steps"><article><span class="step-num">01</span><h3>Understand the task</h3><p>A language description is used to construct a simulated scene and extract task-relevant affordance queries.</p></article><article><span class="step-num">02</span><h3>Ground the interaction</h3><p>Open-vocabulary 3D affordance prediction identifies object regions relevant to the intended action.</p></article><article><span class="step-num">03</span><h3>Generate trajectories</h3><p>Region-conditioned grasps and motion planning produce executable demonstrations for policy learning.</p></article></div>
+    <figure class="wide-figure"><img src="assets/pipeline.webp" alt="AffordSim pipeline from task and scene generation to affordance prediction and trajectory collection." loading="lazy"><figcaption>The data-generation pipeline combines functional contact reasoning with executable motion planning.</figcaption></figure>
+  </div></section>
 
-  <section class="section embodiments-section" id="embodiments">
-    <div class="container">
-      <div class="section-heading"><div><p class="section-label">04 / MULTI-EMBODIMENT</p><h2>Built for more<br>than <em>one robot.</em></h2></div><p>Tasks can be executed across five robot embodiments, enabling the same affordance-aware benchmark to be studied across different arms.</p></div>
-      <figure class="wide-figure"><img src="image/cross_embodiment.png" alt="Examples of manipulation tasks on Franka, Kinova, and UR5e robots." loading="lazy"><figcaption>Representative task frames on Franka, Kinova, and UR5e.</figcaption></figure>
-      <div class="robot-list" aria-label="Supported robots"><span>Franka</span><span>Kinova</span><span>Sawyer</span><span>UR5e</span><span>xArm7</span></div>
-    </div>
-  </section>
+  <section class="section benchmark-section" id="benchmark"><div class="container">
+    <div class="section-heading"><div><p class="section-label">03 / THE BENCHMARK</p><h2>One benchmark. <em>Many ways to interact.</em></h2></div><p>Fifty tasks span seven manipulation skills, from picking and placing to longer compositions that require a sequence of functional interactions.</p></div>
+    <figure class="wide-figure benchmark-figure"><img src="assets/benchmark_50.gif" alt="Animated gallery of example simulated rollouts across the 50 AffordSim benchmark tasks." loading="lazy"><figcaption>Illustrative task rollouts from the paper. These examples show the task suite and do not report success rates.</figcaption></figure>
+    <div class="skill-list" aria-label="Benchmark skills"><span>Pick &amp; place</span><span>Open &amp; close</span><span>Pull &amp; push</span><span>Hang</span><span>Pour</span><span>Stack</span><span>Long-horizon tasks</span></div>
+  </div></section>
 
-  <section class="section randomization-section" id="randomization">
-    <div class="container">
-      <div class="section-heading"><div><p class="section-label">05 / DOMAIN RANDOMIZATION</p><h2>A wider view<br>of <em>the world.</em></h2></div><p>To support transfer, AffordSim varies object pose, texture, lighting, image noise, and cross-viewpoint backgrounds reconstructed from real scenes.</p></div>
-      <figure class="wide-figure"><img src="image/domain_randomization.png" alt="Examples of varied appearances, lighting, object poses, and backgrounds used in domain randomization." loading="lazy"><figcaption>Visual and pose variations enrich the observations used for policy training.</figcaption></figure>
-    </div>
-  </section>
+  <section class="section embodiments-section" id="embodiments"><div class="container">
+    <div class="section-heading"><div><p class="section-label">04 / MULTI-EMBODIMENT</p><h2>Robot <em>embodiments.</em></h2></div><p>AffordSim supports five robot embodiments, allowing the same affordance-aware benchmark to be studied across different arms.</p></div>
+    <div class="robot-grid" aria-label="Five supported robot embodiments"><figure><img src="assets/robot_franka.webp" alt="Franka robot configuration." loading="lazy"><figcaption>Franka</figcaption></figure><figure><img src="assets/robot_kinova.webp" alt="Kinova robot configuration." loading="lazy"><figcaption>Kinova</figcaption></figure><figure><img src="assets/robot_sawyer.webp" alt="Sawyer robot configuration." loading="lazy"><figcaption>Sawyer</figcaption></figure><figure><img src="assets/robot_ur5e.webp" alt="UR5e robot configuration." loading="lazy"><figcaption>UR5e</figcaption></figure><figure><img src="assets/robot_xarm7.webp" alt="xArm7 robot configuration." loading="lazy"><figcaption>xArm7</figcaption></figure></div>
+  </div></section>
 
-  <section class="section transfer-section" id="transfer">
-    <div class="container">
-      <div class="section-heading"><div><p class="section-label">06 / SIM-TO-REAL</p><h2>From simulation<br>to <em>the real world.</em></h2></div><p>As an initial transfer evaluation, policies trained on AffordSim demonstrations are deployed zero-shot on a real Franka FR3 across four manipulation tasks.</p></div>
-      <div class="real-grid">
-        <figure><img src="assets/real_banana.webp" alt="Real robot placing a banana on a plate." loading="lazy"><figcaption><span>01</span> Pick &amp; place</figcaption></figure>
-        <figure><img src="assets/real_cup.webp" alt="Real robot placing a cup on a shelf." loading="lazy"><figcaption><span>02</span> Place a cup</figcaption></figure>
-        <figure><img src="assets/real_pour.webp" alt="Real robot performing a pouring task." loading="lazy"><figcaption><span>03</span> Pour</figcaption></figure>
-        <figure><img src="assets/real_hang.webp" alt="Real robot hanging a mug on a rack." loading="lazy"><figcaption><span>04</span> Hang</figcaption></figure>
-      </div>
-      <p class="result-note"><strong>24%</strong> average zero-shot success across the four real-world tasks for vision-language-action policies trained on AffordSim data. See the paper for the experimental setup and per-task results.</p>
+  <section class="section randomization-section" id="randomization"><div class="container">
+    <div class="section-heading"><div><p class="section-label">05 / DOMAIN RANDOMIZATION</p><h2>Domain <em>randomization.</em></h2></div><p>To support transfer, AffordSim varies object pose, texture, lighting, image noise, and cross-viewpoint backgrounds reconstructed from real scenes.</p></div>
+    <figure class="wide-figure randomization-figure"><img src="image/domain_randomization.png" alt="Examples of varied appearances, lighting, object poses, and backgrounds used in domain randomization." loading="lazy"><figcaption>The paper’s overview of visual and pose variations used during data generation.</figcaption></figure>
+    <div class="background-explorer"><div class="explorer-heading"><div><p class="section-label">CROSS-VIEWPOINT BACKGROUNDS</p><h3>Explore reconstructed scenes.</h3></div><p>Select a scene to view the same recorded simulation trajectory composited with calibrated scene backgrounds. The library and workshop views are post-composited.</p></div>
+      <fieldset class="scene-picker"><legend>Choose a background scene</legend>
+        <label class="scene-option"><input type="radio" name="scene" value="coffee" checked><span class="scene-card"><img src="assets/bg_coffee.webp" alt=""><span>Coffee shop</span></span></label>
+        <label class="scene-option"><input type="radio" name="scene" value="library"><span class="scene-card"><img src="assets/bg_library.webp" alt=""><span>Library</span></span></label>
+        <label class="scene-option"><input type="radio" name="scene" value="workshop"><span class="scene-card"><img src="assets/bg_workshop.webp" alt=""><span>Workshop</span></span></label>
+      </fieldset>
+      <figure class="scene-video"><video id="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-coffee.mp4" aria-label="Simulated trajectory with coffee shop background">Your browser does not support embedded video.</video><figcaption id="scene-caption" aria-live="polite">Coffee shop background. A shared recorded simulation trajectory is composited with the calibrated scene background.</figcaption></figure>
     </div>
-  </section>
+  </div></section>
 
-  <section class="section citation-section" id="citation">
-    <div class="container citation-layout"><div><p class="section-label">CITATION</p><h2>Explore the work.</h2><p>If you find AffordSim useful, please consider citing our work. The BibTeX entry is provisional.</p><a class="text-link" href="paper/main.pdf">Read the paper <span aria-hidden="true">↗</span></a></div>
-      <div class="citation-box"><div class="citation-top"><span>BIBTEX</span><button id="copy-citation" type="button">Copy citation</button></div><pre id="bibtex">@misc{li2026affordsim,
-  title  = {AffordSim: A Scalable Data Generator and Benchmark
-            for Affordance-Aware Robotic Manipulation},
-  author = {Li, Mingyang and Xu, Haofan and Sun, Haowen and
-            Chen, Xinzhe and Ren, Sihua and Huang, Liqi and
-            Sui, Xinyang and Miao, Chenyang and Ye, Jiawei and
-            Cui, Qiongjie and Chen, Xingyu and Liu, Zeyang and
-            Lan, Xuguang},
-  year   = {2026}
+  <section class="section transfer-section" id="transfer"><div class="container">
+    <div class="section-heading"><div><p class="section-label">06 / SIM-TO-REAL</p><h2>From simulation to <em>the real world.</em></h2></div><p>As an initial transfer evaluation, policies trained on AffordSim demonstrations are deployed zero-shot on a real Franka FR3 across four manipulation tasks.</p></div>
+    <div class="real-grid"><figure><img src="assets/real_banana.webp" alt="Real robot placing a banana on a plate." loading="lazy"><figcaption><span>01</span> Pick &amp; place</figcaption></figure><figure><img src="assets/real_cup.webp" alt="Real robot placing a cup on a shelf." loading="lazy"><figcaption><span>02</span> Place a cup</figcaption></figure><figure><img src="assets/real_pour.webp" alt="Real robot performing a pouring task." loading="lazy"><figcaption><span>03</span> Pour</figcaption></figure><figure><img src="assets/real_hang.webp" alt="Real robot hanging a mug on a rack." loading="lazy"><figcaption><span>04</span> Hang</figcaption></figure></div>
+    <p class="result-note"><strong>24%</strong> average zero-shot success across the four real-world tasks for vision-language-action policies trained on AffordSim data. See the paper for the experimental setup and per-task results.</p>
+  </div></section>
+
+  <section class="section citation-section" id="citation"><div class="container citation-layout"><div><p class="section-label">CITATION</p><h2>Explore the work.</h2><p>If you find AffordSim useful, please consider citing our work.</p><a class="text-link" href="paper/main.pdf">Read the paper <span aria-hidden="true">↗</span></a></div>
+    <div class="citation-box"><div class="citation-top"><span>BIBTEX</span><button id="copy-citation" type="button">Copy citation</button></div><pre id="bibtex">@inproceedings{li2026affordsim,
+  title     = {AffordSim: A Scalable Data Generator and Benchmark
+               for Affordance-Aware Robotic Manipulation},
+  author    = {Li, Mingyang and Xu, Haofan and Sun, Haowen and
+               Chen, Xinzhe and Ren, Sihua and Huang, Liqi and
+               Sui, Xinyang and Miao, Chenyang and Ye, Jiawei and
+               Cui, Qiongjie and Chen, Xingyu and Liu, Zeyang and
+               Lan, Xuguang},
+  booktitle = {The Fortieth Annual Conference on Neural Information
+               Processing Systems, Track on Evaluations and Datasets},
+  year      = {2026}
 }</pre><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></div>
-    </div>
-  </section>
+  </div></section>
 </main>
 <footer><div class="container footer-inner"><a class="brand" href="#top"><span class="brand-mark">a<span>.</span></span><span>AffordSim</span></a><p>Institute of Artificial Intelligence and Robotics<br>Xi’an Jiaotong University</p><a href="#top">Back to top ↑</a></div></footer>
 </body>

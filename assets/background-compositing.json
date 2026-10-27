@@ -1,0 +1,18 @@
+{
+  "provenance": "One recorded simulator trajectory composited with three calibrated DA3 background images. Library and workshop are postprocessed alternatives for the same recorded trajectory, not separate recorded rollouts.",
+  "source_episode": "code/outputs/collection_validation/episodes/20261026_225952/20261026_230000/episode_0000.npy",
+  "source_field": "obs_policy_external_cam_side",
+  "original_background": "coffee_shop_view_06.png",
+  "replacement_backgrounds": [
+    "library_view_06.png",
+    "workshop_view_06.png"
+  ],
+  "matching_original_validation_mask_pixels": 307200,
+  "frames": 92,
+  "resolution": [
+    640,
+    480
+  ],
+  "fps": 4,
+  "mask_method": "A pixel is foreground when any of its three 8-bit RGB channels differs from the resized original coffee background; exact equivalence to original validation mask was verified on frame 0."
+}
