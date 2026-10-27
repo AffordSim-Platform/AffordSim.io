@@ -127,3 +127,34 @@ h2{font-size:clamp(43px,4.2vw,62px)}
 
 /* Align the tier badge with the first line of its description. */
 .difficulty-list strong{padding:0 8px;line-height:28.5px}
+
+/* Give the main section summaries greater prominence. */
+#overview .section-heading p.lead{font-size:28px;line-height:1.5}
+#method .section-heading>p,
+#benchmark .difficulty-summary>p{font-size:26px;line-height:1.55}
+@media(min-width:1280px){
+  #benchmark .section-heading{grid-template-columns:minmax(0,.66fr) minmax(0,1.34fr);gap:48px}
+  #benchmark .difficulty-list li:nth-child(2)>span{white-space:nowrap}
+}
+@media(min-width:851px) and (max-width:1279px){
+  #benchmark .section-heading{grid-template-columns:1fr;gap:20px}
+  #benchmark .section-heading>.difficulty-summary{padding-top:0}
+}
+@media(max-width:850px){
+  #overview .section-heading p.lead{font-size:23px}
+  #method .section-heading>p,
+  #benchmark .difficulty-summary>p{font-size:21px}
+}
+
+/* Difficulty controls keep their labels centered and select their own explanation. */
+.difficulty-button{display:inline-flex;align-items:center;justify-content:center;width:100%;height:28.5px;padding:0 8px;border:2px solid transparent;border-radius:7px;font:700 16px/1.2 var(--sans);text-align:center;white-space:nowrap;cursor:pointer}
+.difficulty-button.tier-easy[aria-pressed=true]{border-color:#23603b}
+.difficulty-button.tier-medium[aria-pressed=true]{border-color:#805208}
+.difficulty-button.tier-hard[aria-pressed=true]{border-color:#8d3434}
+.difficulty-list li.is-selected>span{color:var(--ink);font-weight:600}
+@media(max-width:480px){.difficulty-button{justify-self:start;width:155px}}
+
+/* Preserve the requested single-line description on narrow screens, too. */
+.difficulty-nowrap{display:block;max-width:100%;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+.difficulty-nowrap::-webkit-scrollbar{height:4px}
+.difficulty-nowrap::-webkit-scrollbar-thumb{background:#a8bfba;border-radius:4px}

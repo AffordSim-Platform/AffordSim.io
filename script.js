@@ -99,3 +99,16 @@ if (taskGallery && skillButtons.length) {
     });
   }
 }
+
+// Select a difficulty tier to emphasize its explanation.
+const difficultyButtons = [...document.querySelectorAll('.difficulty-button')];
+for (const button of difficultyButtons) {
+  button.addEventListener('click', () => {
+    const select = button.getAttribute('aria-pressed') !== 'true';
+    for (const item of difficultyButtons) {
+      const active = select && item === button;
+      item.setAttribute('aria-pressed', String(active));
+      item.closest('li').classList.toggle('is-selected', active);
+    }
+  });
+}
