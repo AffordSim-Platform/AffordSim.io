@@ -18,29 +18,60 @@ if (copyButton && copyStatus) {
 
 const backgroundVideo = document.querySelector('#background-video');
 const sceneCaption = document.querySelector('#scene-caption');
-const sceneNames = { coffee: 'Coffee shop', library: 'Library', workshop: 'Workshop' };
+const sceneDescription = document.querySelector('#scene-description');
+const scenes = {
+  coffee: { name: 'Coffee shop', description: 'Franka FR3 · Pick banana and place on plate' },
+  library: { name: 'Library', description: 'UR5e · Pick chocolate box and place on sugar box' },
+  workshop: { name: 'Workshop', description: 'Kinova Gen3 · Pick bowl and place on plate' }
+};
+const viewpoints = {
+  '02': { name: 'View 1', angle: '−90 degrees' },
+  '04': { name: 'View 2', angle: '−60 degrees' },
+  '06': { name: 'View 3', angle: '−30 degrees' }
+};
+let currentScene = 'coffee';
+let pendingLoad = false;
+let playbackIntent = true;
+let requestedTime = 0;
 let sceneRequest = 0;
-for (const input of document.querySelectorAll('input[name="scene"]')) {
-  input.addEventListener('change', () => {
-    if (!input.checked || !backgroundVideo || !sceneCaption) return;
+
+if (backgroundVideo && sceneCaption && sceneDescription) {
+  backgroundVideo.addEventListener('play', () => { if (!pendingLoad) playbackIntent = true; });
+  backgroundVideo.addEventListener('pause', () => { if (!pendingLoad) playbackIntent = false; });
+
+  const updateBackgroundVideo = () => {
+    const scene = document.querySelector('input[name="scene"]:checked')?.value;
+    const view = document.querySelector('input[name="view"]:checked')?.value;
+    if (!scenes[scene] || !viewpoints[view]) return;
     const request = ++sceneRequest;
-    const wasPlaying = !backgroundVideo.paused && !backgroundVideo.ended;
-    const oldTime = Number.isFinite(backgroundVideo.currentTime) ? backgroundVideo.currentTime : 0;
-    const name = sceneNames[input.value];
-    // Changing src with the autoplay attribute still enabled can restart a
-    // video that the visitor explicitly paused.
-    backgroundVideo.autoplay = wasPlaying;
-    backgroundVideo.src = `assets/background-${input.value}.mp4`;
-    backgroundVideo.setAttribute('aria-label', `Simulated trajectory with ${name.toLowerCase()} background`);
-    sceneCaption.textContent = `${name} background. A shared recorded simulation trajectory is composited with the calibrated scene background.`;
-    backgroundVideo.addEventListener('loadedmetadata', () => {
+    const sameScene = scene === currentScene;
+    if (!pendingLoad) {
+      playbackIntent = !backgroundVideo.paused && !backgroundVideo.ended;
+      requestedTime = Number.isFinite(backgroundVideo.currentTime) ? backgroundVideo.currentTime : 0;
+    }
+    if (!sameScene) requestedTime = 0;
+    currentScene = scene;
+    const { name, description } = scenes[scene];
+    const { name: viewName, angle } = viewpoints[view];
+    sceneDescription.textContent = description;
+    sceneCaption.textContent = `${name}, ${description}, ${viewName}, orbit angle ${angle}.`;
+    backgroundVideo.setAttribute('aria-label', `${description}, ${name}, ${viewName}, orbit angle ${angle}`);
+    pendingLoad = true;
+    backgroundVideo.autoplay = playbackIntent;
+    backgroundVideo.src = `assets/background-${scene}-${view}.mp4`;
+    backgroundVideo.onloadedmetadata = () => {
       if (request !== sceneRequest) return;
       if (Number.isFinite(backgroundVideo.duration)) {
-        backgroundVideo.currentTime = Math.min(oldTime, Math.max(0, backgroundVideo.duration - 0.05));
+        backgroundVideo.currentTime = Math.min(requestedTime, Math.max(0, backgroundVideo.duration - 0.05));
       }
-      if (wasPlaying) backgroundVideo.play().catch(() => {});
+      pendingLoad = false;
+      if (playbackIntent) backgroundVideo.play().catch(() => {});
       else backgroundVideo.pause();
-    }, { once: true });
+    };
+    backgroundVideo.onerror = () => { if (request === sceneRequest) pendingLoad = false; };
     backgroundVideo.load();
-  });
+  };
+  for (const input of document.querySelectorAll('input[name="scene"], input[name="view"]')) {
+    input.addEventListener('change', () => { if (input.checked) updateBackgroundVideo(); });
+  }
 }
