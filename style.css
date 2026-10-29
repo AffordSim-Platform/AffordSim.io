@@ -4,6 +4,10 @@
 
 /* Centered paper title, conference, authors and affiliations. */
 .hero h1{margin:0 auto 18px;font-family:var(--sans);font-weight:700;letter-spacing:-.03em}
+.hero-actions .resource-button{min-width:128px;min-height:54px;padding:12px 22px;border:0;border-radius:14px;background:#f0f0f0;color:#34414a;font-size:20px;font-weight:500}
+.hero-actions .resource-button:hover{background:#e4e8e7}
+.hero-actions .resource-button:focus-visible{outline:3px solid #25879b;outline-offset:3px}
+.hero-actions .resource-button svg{width:21px;height:21px;flex:none;fill:currentColor}
 .publication-venue{margin:0 auto 20px;color:var(--blue);font-size:clamp(20px,2vw,26px);font-weight:600;line-height:1.35}
 .publication-venue span{padding:0 .12em;color:#90aaa3}
 .authors{max-width:1100px;font-weight:500}
