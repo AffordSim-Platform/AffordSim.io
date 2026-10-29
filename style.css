@@ -165,6 +165,12 @@ h2{font-size:clamp(43px,4.2vw,62px)}
 .difficulty-list li.is-selected>span{color:var(--ink);font-weight:600}
 @media(max-width:480px){.difficulty-button{justify-self:start;width:155px}}
 
+/* Keep the page background white across all sections. */
+:root{--paper:#fff}
+.site-header,.hero,.section,footer{background:#fff}
+footer{color:var(--ink);border-top:1px solid var(--line)}
+.footer-inner p,.footer-inner>a:last-child{color:var(--muted)}
+
 /* Preserve the requested single-line description on narrow screens, too. */
 .difficulty-nowrap{display:block;max-width:100%;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
 .difficulty-nowrap::-webkit-scrollbar{height:4px}
