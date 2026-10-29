@@ -1,6 +1,6 @@
 # AffordSim project page
 
-This repository contains the project page for **AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation**. The page uses figures and a PDF built from the current paper source, and links to the [AffordSim code repository](https://github.com/yangml071/AffordSim).
+This repository hosts the public project page for **AffordSim: A Scalable Data Generator and Benchmark for Affordance-Aware Robotic Manipulation**. It includes project figures and the paper PDF, and links to the [AffordSim code repository](https://github.com/AffordSim-Platform/AffordSim).
 
 ## Files
 
