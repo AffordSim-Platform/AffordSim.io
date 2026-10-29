@@ -243,7 +243,21 @@
         status.textContent = 'Reconstructed point cloud is unavailable.';
       });
   }
-  const initialize = () => document.querySelectorAll('.pointcloud-viewer[data-pointcloud]').forEach(makeViewer);
+  const initialize = () => {
+    const containers = document.querySelectorAll('.pointcloud-viewer[data-pointcloud]');
+    if (!('IntersectionObserver' in window)) {
+      containers.forEach(makeViewer);
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        makeViewer(entry.target);
+      }
+    }, { rootMargin: '500px 0px' });
+    containers.forEach(container => observer.observe(container));
+  };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
   else initialize();
 })();

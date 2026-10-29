@@ -16,6 +16,53 @@ if (copyButton && copyStatus) {
   });
 }
 
+// Load videos near the viewport and suspend playback when they leave it.
+function loadDeferredVideo(video) {
+  if (!video.dataset.src) return;
+  video.src = video.dataset.src;
+  delete video.dataset.src;
+  video.load();
+}
+const deferredVideos = document.querySelectorAll('video[data-src]');
+const mediaPlaybackState = new WeakMap();
+for (const video of deferredVideos) {
+  const state = { visible: !('IntersectionObserver' in window), resume: false };
+  mediaPlaybackState.set(video, state);
+  video.addEventListener('play', () => {
+    if (!state.visible) {
+      state.resume = true;
+      video.pause();
+    } else {
+      state.resume = false;
+    }
+  });
+  video.addEventListener('pause', () => {
+    if (state.visible) state.resume = false;
+  });
+}
+if ('IntersectionObserver' in window) {
+  const videoObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const video = entry.target;
+      const state = mediaPlaybackState.get(video);
+      state.visible = entry.isIntersecting;
+      if (state.visible) {
+        if (video.dataset.src) loadDeferredVideo(video);
+        else if (state.resume) {
+          state.resume = false;
+          video.play().catch(() => {});
+        }
+      } else if (!video.paused) {
+        state.resume = true;
+        video.pause();
+      }
+    }
+  }, { rootMargin: '500px 0px' });
+  deferredVideos.forEach(video => videoObserver.observe(video));
+} else {
+  deferredVideos.forEach(loadDeferredVideo);
+}
+
 // Each scene has an independently controlled, twice-speed video.
 const viewpoints = {
   '02': { name: 'View 1', angle: '−90 degrees' },
@@ -34,13 +81,13 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
   let requestedTime = 0;
   video.defaultPlaybackRate = 2;
   video.playbackRate = 2;
-  video.addEventListener('play', () => { if (!pendingLoad) playbackIntent = true; });
-  video.addEventListener('pause', () => { if (!pendingLoad) playbackIntent = false; });
+  video.addEventListener('play', () => { if (!pendingLoad && mediaPlaybackState.get(video)?.visible) playbackIntent = true; });
+  video.addEventListener('pause', () => { if (!pendingLoad && mediaPlaybackState.get(video)?.visible) playbackIntent = false; });
   for (const input of demo.querySelectorAll('input[type="radio"]')) {
     input.addEventListener('change', () => {
       if (!input.checked || !viewpoints[input.value]) return;
       const currentRequest = ++request;
-      if (!pendingLoad) {
+      if (!pendingLoad && video.hasAttribute('src')) {
         playbackIntent = !video.paused && !video.ended;
         requestedTime = Number.isFinite(video.currentTime) ? video.currentTime : 0;
       }
@@ -49,6 +96,7 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
       video.setAttribute('aria-label', `${name}, ${task}, ${viewName}, orbit angle ${angle}`);
       pendingLoad = true;
       video.autoplay = playbackIntent;
+      delete video.dataset.src;
       video.src = `assets/background-${scene}-${input.value}.mp4`;
       video.onloadedmetadata = () => {
         if (currentRequest !== request) return;
@@ -67,7 +115,7 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
   }
 }
 
-// Display the original task GIFs in the same row-major order as the manifest.
+// Display task animations in the same row-major order as the manifest.
 // Selecting a different filter replaces the previous one; clicking again clears it.
 const taskGallery = document.querySelector('.benchmark-figure');
 const imageGrid = taskGallery?.querySelector('.benchmark-image-grid');
@@ -78,9 +126,14 @@ const benchmarkTasks = window.AFFORDSIM_BENCHMARK_TASKS;
 if (taskGallery && imageGrid && Array.isArray(benchmarkTasks) && benchmarkTasks.length === 50) {
   for (const task of benchmarkTasks) {
     const image = document.createElement('img');
-    image.src = `assets/benchmark_tasks/${task.id}.gif`;
-    image.alt = '';
     image.loading = 'lazy';
+    // Retain the original animation as a fallback for browsers without WebP.
+    image.onerror = () => {
+      image.onerror = null;
+      image.src = `assets/benchmark_tasks/${task.id}.gif`;
+    };
+    image.src = `assets/benchmark_tasks/${task.id}.webp`;
+    image.alt = '';
     image.dataset.task = task.id;
     imageGrid.appendChild(image);
   }

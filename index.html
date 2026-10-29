@@ -46,10 +46,10 @@
       <div class="section-heading"><div><p class="section-label">01 / THE IDEA</p><h2>Where a robot <em>interacts</em> matters.</h2></div><div><p class="lead">The right grasp is more than a stable grasp. It must also support what the robot needs to do next.</p><p>AffordSim brings open-vocabulary 3D affordance prediction into simulation-based data generation. From a natural-language task, it builds a scene, identifies task-relevant object regions, and plans executable grasps and trajectories. The resulting data supports policy learning on a benchmark designed around affordance-dependent manipulation.</p></div></div>
       <figure class="motivation-comparison" aria-label="AnyGrasp and AffordSim compared on placing and hanging a cup.">
         <img src="assets/motivation-comparison.webp" alt="Two tasks compare AnyGrasp with task-specific grasp and placement or hanging points from AffordSim." loading="lazy">
-        <video class="motivation-video place-fail" autoplay muted loop playsinline preload="metadata" aria-label="AnyGrasp cup placement failure" src="assets/motivation_sample1_fail.mp4"></video>
-        <video class="motivation-video place-success" autoplay muted loop playsinline preload="metadata" aria-label="AffordSim cup placement success" src="assets/motivation_sample1_success.mp4"></video>
-        <video class="motivation-video hang-fail" autoplay muted loop playsinline preload="metadata" aria-label="AnyGrasp cup hanging failure" src="assets/motivation_sample2_fail.mp4"></video>
-        <video class="motivation-video hang-success" autoplay muted loop playsinline preload="metadata" aria-label="AffordSim cup hanging success" src="assets/motivation_sample2_success.mp4"></video>
+        <video class="motivation-video place-fail" autoplay muted loop playsinline preload="metadata" aria-label="AnyGrasp cup placement failure" data-src="assets/motivation_sample1_fail.mp4"></video>
+        <video class="motivation-video place-success" autoplay muted loop playsinline preload="metadata" aria-label="AffordSim cup placement success" data-src="assets/motivation_sample1_success.mp4"></video>
+        <video class="motivation-video hang-fail" autoplay muted loop playsinline preload="metadata" aria-label="AnyGrasp cup hanging failure" data-src="assets/motivation_sample2_fail.mp4"></video>
+        <video class="motivation-video hang-success" autoplay muted loop playsinline preload="metadata" aria-label="AffordSim cup hanging success" data-src="assets/motivation_sample2_success.mp4"></video>
       </figure>
     </div>
   </section>
@@ -85,17 +85,17 @@
             <label><input type="radio" name="view-coffee" value="02" checked><span>View 1 <small>−90°</small></span></label>
             <label><input type="radio" name="view-coffee" value="04"><span>View 2 <small>−60°</small></span></label>
             <label><input type="radio" name="view-coffee" value="06"><span>View 3 <small>−30°</small></span></label>
-          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-coffee-02.mp4" aria-label="Coffee shop, Pick banana and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Coffee shop, view 1, orbit angle −90 degrees.</span></figure></article>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" data-src="assets/background-coffee-02.mp4" aria-label="Coffee shop, Pick banana and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Coffee shop, view 1, orbit angle −90 degrees.</span></figure></article>
         <article class="scene-demo" data-scene="library"><h4>Library</h4><p class="scene-task">Pick chocolate box and place on sugar box</p><fieldset class="view-picker"><legend>Camera viewpoint</legend>
             <label><input type="radio" name="view-library" value="02" checked><span>View 1 <small>−90°</small></span></label>
             <label><input type="radio" name="view-library" value="04"><span>View 2 <small>−60°</small></span></label>
             <label><input type="radio" name="view-library" value="06"><span>View 3 <small>−30°</small></span></label>
-          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-library-02.mp4" aria-label="Library, Pick chocolate box and place on sugar box, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Library, view 1, orbit angle −90 degrees.</span></figure></article>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" data-src="assets/background-library-02.mp4" aria-label="Library, Pick chocolate box and place on sugar box, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Library, view 1, orbit angle −90 degrees.</span></figure></article>
         <article class="scene-demo" data-scene="workshop"><h4>Workshop</h4><p class="scene-task">Pick bowl and place on plate</p><fieldset class="view-picker"><legend>Camera viewpoint</legend>
             <label><input type="radio" name="view-workshop" value="02" checked><span>View 1 <small>−90°</small></span></label>
             <label><input type="radio" name="view-workshop" value="04"><span>View 2 <small>−60°</small></span></label>
             <label><input type="radio" name="view-workshop" value="06"><span>View 3 <small>−30°</small></span></label>
-          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" src="assets/background-workshop-02.mp4" aria-label="Workshop, Pick bowl and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Workshop, view 1, orbit angle −90 degrees.</span></figure></article>
+          </fieldset><figure class="scene-video"><video class="background-video" controls autoplay muted loop playsinline preload="metadata" data-src="assets/background-workshop-02.mp4" aria-label="Workshop, Pick bowl and place on plate, view 1">Your browser does not support embedded video.</video><span class="sr-only scene-caption" aria-live="polite">Workshop, view 1, orbit angle −90 degrees.</span></figure></article>
       </div>
     </div>
   </div></section>
