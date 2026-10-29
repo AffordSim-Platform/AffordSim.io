@@ -97,7 +97,7 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
       pendingLoad = true;
       video.autoplay = playbackIntent;
       delete video.dataset.src;
-      video.src = `assets/background-${scene}-${input.value}.mp4`;
+      video.src = `assets/background-${scene}-${input.value}.mp4?v=20261030-2`;
       video.onloadedmetadata = () => {
         if (currentRequest !== request) return;
         video.defaultPlaybackRate = 2;
@@ -130,9 +130,9 @@ if (taskGallery && imageGrid && Array.isArray(benchmarkTasks) && benchmarkTasks.
     // Retain the original animation as a fallback for browsers without WebP.
     image.onerror = () => {
       image.onerror = null;
-      image.src = `assets/benchmark_tasks/${task.id}.gif`;
+      image.src = `assets/benchmark_tasks/${task.id}.gif?v=20261030-2`;
     };
-    image.src = `assets/benchmark_tasks/${task.id}.webp`;
+    image.src = `assets/benchmark_tasks/${task.id}.webp?v=20261030-2`;
     image.alt = '';
     image.dataset.task = task.id;
     imageGrid.appendChild(image);
