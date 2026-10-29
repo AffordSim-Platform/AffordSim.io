@@ -175,3 +175,13 @@ footer{color:var(--ink);border-top:1px solid var(--line)}
 .difficulty-nowrap{display:block;max-width:100%;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
 .difficulty-nowrap::-webkit-scrollbar{height:4px}
 .difficulty-nowrap::-webkit-scrollbar-thumb{background:#a8bfba;border-radius:4px}
+
+/* Compact section rhythm and align the transfer summary with the page grid. */
+.section{padding:60px 0}
+.hero h1{max-width:1380px;font-size:clamp(27px,3.2vw,48px)}
+.result-note{max-width:none;text-align:justify}
+@media(max-width:850px){
+  .section{padding:44px 0}
+  .hero h1{font-size:clamp(30px,6vw,44px)}
+  .title-break{display:none}
+}
