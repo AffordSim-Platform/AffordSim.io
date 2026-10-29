@@ -185,3 +185,11 @@ footer{color:var(--ink);border-top:1px solid var(--line)}
   .hero h1{font-size:clamp(30px,6vw,44px)}
   .title-break{display:none}
 }
+
+/* Author and affiliation markers follow the paper's affiliation notation. */
+.authors{max-width:1250px;font-size:24px;line-height:1.65}
+.affiliation{font-size:20px}
+@media(max-width:850px){
+  .authors{font-size:19px}
+  .affiliation{font-size:17px}
+}
