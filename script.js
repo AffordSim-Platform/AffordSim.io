@@ -67,14 +67,23 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
   }
 }
 
-// All filters use the same manifest in the same row-major order as the GIF.
+// Display the original task GIFs in the same row-major order as the manifest.
 // Selecting a different filter replaces the previous one; clicking again clears it.
 const taskGallery = document.querySelector('.benchmark-figure');
+const imageGrid = taskGallery?.querySelector('.benchmark-image-grid');
 const skillButtons = [...document.querySelectorAll('.skill-list button[data-skill]')];
 const difficultyButtons = [...document.querySelectorAll('.difficulty-button[data-difficulty]')];
 const skillStatus = document.querySelector('#skill-status');
 const benchmarkTasks = window.AFFORDSIM_BENCHMARK_TASKS;
-if (taskGallery && Array.isArray(benchmarkTasks) && benchmarkTasks.length === 50) {
+if (taskGallery && imageGrid && Array.isArray(benchmarkTasks) && benchmarkTasks.length === 50) {
+  for (const task of benchmarkTasks) {
+    const image = document.createElement('img');
+    image.src = `assets/benchmark_tasks/${task.id}.gif`;
+    image.alt = '';
+    image.loading = 'lazy';
+    image.dataset.task = task.id;
+    imageGrid.appendChild(image);
+  }
   const overlay = document.createElement('div');
   overlay.className = 'task-highlight-grid';
   overlay.setAttribute('role', 'group');
