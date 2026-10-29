@@ -67,48 +67,67 @@ for (const demo of document.querySelectorAll('.scene-demo')) {
   }
 }
 
-// Highlight the matching cells of the 10-by-5 animated task gallery.
+// All filters use the same manifest in the same row-major order as the GIF.
+// Selecting a different filter replaces the previous one; clicking again clears it.
 const taskGallery = document.querySelector('.benchmark-figure');
-const skillButtons = [...document.querySelectorAll('.skill-list button[data-tasks]')];
+const skillButtons = [...document.querySelectorAll('.skill-list button[data-skill]')];
+const difficultyButtons = [...document.querySelectorAll('.difficulty-button[data-difficulty]')];
 const skillStatus = document.querySelector('#skill-status');
-if (taskGallery && skillButtons.length) {
+const benchmarkTasks = window.AFFORDSIM_BENCHMARK_TASKS;
+if (taskGallery && Array.isArray(benchmarkTasks) && benchmarkTasks.length === 50) {
   const overlay = document.createElement('div');
   overlay.className = 'task-highlight-grid';
-  overlay.setAttribute('aria-hidden', 'true');
-  const cells = Array.from({ length: 50 }, (_, index) => {
-    const cell = document.createElement('span');
+  overlay.setAttribute('role', 'group');
+  overlay.setAttribute('aria-label', '50 benchmark tasks, ordered by difficulty');
+  const cells = benchmarkTasks.map(task => {
+    const cell = document.createElement('button');
+    const label = task.id.replaceAll('_', ' ');
+    cell.type = 'button';
     cell.className = 'task-highlight-cell';
-    cell.dataset.task = String(index + 1);
+    cell.dataset.task = task.id;
+    cell.dataset.label = label;
+    cell.setAttribute('aria-label', `${label} (${task.difficulty})`);
+    cell.setAttribute('aria-pressed', 'false');
+    cell.addEventListener('click', () => {
+      const show = cell.getAttribute('aria-pressed') !== 'true';
+      for (const item of overlay.children) {
+        item.classList.remove('is-inspected');
+        item.setAttribute('aria-pressed', 'false');
+      }
+      cell.classList.toggle('is-inspected', show);
+      cell.setAttribute('aria-pressed', String(show));
+    });
     overlay.appendChild(cell);
     return cell;
   });
   taskGallery.appendChild(overlay);
-  for (const button of skillButtons) {
+  const allButtons = [...skillButtons, ...difficultyButtons];
+  for (const button of allButtons) {
     button.addEventListener('click', () => {
       const activate = button.getAttribute('aria-pressed') !== 'true';
-      skillButtons.forEach(item => item.setAttribute('aria-pressed', String(activate && item === button)));
+      for (const item of allButtons) {
+        const selected = activate && item === button;
+        item.setAttribute('aria-pressed', String(selected));
+        if (item.matches('.difficulty-button')) {
+          item.closest('li').classList.toggle('is-selected', selected);
+        }
+      }
+      const matches = task => button.dataset.difficulty
+        ? task.difficulty === button.dataset.difficulty
+        : task.skills.includes(button.dataset.skill);
+      let count = 0;
       overlay.classList.toggle('is-filtering', activate);
-      const matching = new Set(button.dataset.tasks.split(',').map(item => Number(item.trim())));
       for (const [index, cell] of cells.entries()) {
-        cell.classList.toggle('is-match', activate && matching.has(index + 1));
+        const match = activate && matches(benchmarkTasks[index]);
+        cell.classList.toggle('is-match', match);
         cell.style.setProperty('--skill-color', button.dataset.color);
+        if (match) count += 1;
       }
       if (skillStatus) skillStatus.textContent = activate
-        ? `${button.textContent.trim()}: ${matching.size} matching task examples highlighted. Select again to clear.`
+        ? `${button.textContent.trim()}: ${count} matching tasks highlighted. Select again to clear.`
         : 'All task examples shown.';
     });
   }
-}
-
-// Select a difficulty tier to emphasize its explanation.
-const difficultyButtons = [...document.querySelectorAll('.difficulty-button')];
-for (const button of difficultyButtons) {
-  button.addEventListener('click', () => {
-    const select = button.getAttribute('aria-pressed') !== 'true';
-    for (const item of difficultyButtons) {
-      const active = select && item === button;
-      item.setAttribute('aria-pressed', String(active));
-      item.closest('li').classList.toggle('is-selected', active);
-    }
-  });
+} else if (taskGallery && skillStatus) {
+  skillStatus.textContent = 'Task highlighting is unavailable because the gallery manifest is missing or incomplete.';
 }

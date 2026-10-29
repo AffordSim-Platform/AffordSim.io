@@ -89,8 +89,13 @@ h2{font-size:clamp(43px,4.2vw,62px)}
 
 /* Skill buttons highlight their corresponding cells in the task animation. */
 .benchmark-figure{position:relative}
-.task-highlight-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(5,1fr);overflow:hidden;border-radius:12px;pointer-events:none}
-.task-highlight-cell{transition:background-color .18s,box-shadow .18s}
+.task-highlight-grid{position:absolute;inset:1px;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(5,1fr);border-radius:12px}
+.task-highlight-cell{position:relative;min-width:0;padding:0;border:0;background:transparent;cursor:pointer;transition:background-color .18s,box-shadow .18s}
+.task-highlight-cell::after{content:attr(data-label);position:absolute;left:50%;bottom:calc(100% + 5px);z-index:4;display:none;width:max-content;max-width:min(240px,80vw);padding:7px 10px;border-radius:6px;background:#192a32;color:#fff;font:600 14px/1.35 var(--sans);text-align:left;overflow-wrap:anywhere;transform:translateX(-50%);pointer-events:none;box-shadow:0 2px 8px #0003}
+.task-highlight-cell:hover::after,.task-highlight-cell:focus-visible::after,.task-highlight-cell.is-inspected::after{display:block}
+.task-highlight-cell:nth-child(10n+1)::after{left:0;transform:none}
+.task-highlight-cell:nth-child(10n)::after{left:auto;right:0;transform:none}
+.task-highlight-cell:focus-visible{z-index:2;outline-offset:-3px}
 .task-highlight-grid.is-filtering .task-highlight-cell:not(.is-match){background:rgba(13,25,30,.66)}
 .task-highlight-grid.is-filtering .task-highlight-cell.is-match{box-shadow:inset 0 0 0 4px var(--skill-color);background:color-mix(in srgb,var(--skill-color) 16%,transparent)}
 .skill-list button{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #d2e0da;padding:10px 17px;border-radius:100px;font:650 17px/1.4 var(--sans);color:var(--ink);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
