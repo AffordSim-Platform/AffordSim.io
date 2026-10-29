@@ -83,6 +83,38 @@
     return { positions: positions.subarray(0, count * 3), colors: colors.subarray(0, count * 3), count };
   }
 
+  // Browsers block fetch(file://...) even when both files are local. A local
+  // script can load normally, so use byte-identical encoded data in that case.
+  // Hosted pages continue to fetch the compact binary assets directly.
+  function loadPointCloud(container) {
+    const path = container.dataset.pointcloud;
+    if (window.location.protocol !== 'file:') {
+      return fetch(path).then(response => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.arrayBuffer();
+      });
+    }
+    return new Promise((resolve, reject) => {
+      const scene = container.dataset.scene;
+      const script = document.createElement('script');
+      script.src = `${path}.js`;
+      script.onload = () => {
+        try {
+          const encoded = window.AFFORDSIM_LOCAL_POINTCLOUDS?.[scene];
+          if (typeof encoded !== 'string') throw new Error('Local point-cloud data is missing.');
+          const binary = atob(encoded);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+          delete window.AFFORDSIM_LOCAL_POINTCLOUDS[scene];
+          resolve(bytes.buffer);
+        } catch (error) { reject(error); }
+        finally { script.remove(); }
+      };
+      script.onerror = () => { script.remove(); reject(new Error('Local point-cloud script failed to load.')); };
+      document.head.appendChild(script);
+    });
+  }
+
   function makeViewer(container) {
     const canvas = document.createElement('canvas');
     canvas.className = 'pointcloud-canvas';
@@ -182,8 +214,7 @@
       status.hidden = false;
       status.textContent = 'The point-cloud viewer was interrupted. Reload to try again.';
     });
-    fetch(container.dataset.pointcloud)
-      .then(response => { if (!response.ok) throw new Error(`HTTP ${response.status}`); return response.arrayBuffer(); })
+    loadPointCloud(container)
       .then(buffer => {
         const data = decode(buffer);
         const vertex = compile(gl, gl.VERTEX_SHADER, vertexShader);
